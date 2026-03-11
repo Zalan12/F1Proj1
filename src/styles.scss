@@ -1,1 +1,80 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #15151e;
+  color: #e0e0e0;
+}
+
+/* ── Dark theme for Angular Material tables ── */
+.mat-mdc-table {
+  background-color: #1e1e2e !important;
+  color: #e0e0e0 !important;
+}
+
+.mat-mdc-header-row {
+  background-color: #252535 !important;
+}
+
+.mat-mdc-header-cell {
+  color: #aaaacc !important;
+  border-bottom-color: #333350 !important;
+  font-weight: 600 !important;
+}
+
+.mat-mdc-row {
+  background-color: #1e1e2e !important;
+
+  &:hover {
+    background-color: #252540 !important;
+  }
+}
+
+.mat-mdc-cell {
+  color: #e0e0e0 !important;
+  border-bottom-color: #2a2a3e !important;
+}
+
+/* ── Dark paginator ── */
+.mat-mdc-paginator {
+  background-color: #1e1e2e !important;
+  color: #aaa !important;
+}
+
+.mat-mdc-paginator-icon {
+  fill: #aaa !important;
+}
+
+.mat-mdc-select-value {
+  color: #e0e0e0 !important;
+}
+
+/* ── Dark tabs ── */
+.mat-mdc-tab-group,
+.mat-mdc-tab-header {
+  background-color: #1e1e2e !important;
+}
+
+.mat-mdc-tab .mdc-tab__text-label {
+  color: #aaa !important;
+}
+
+.mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #e10600 !important;
+}
+
+.mdc-tab-indicator__content--underline {
+  border-color: #e10600 !important;
+}
+
+.mat-mdc-tab-body-content {
+  background-color: #15151e !important;
+}
+
+/* ── Dark cards ── */
+.mat-mdc-card {
+  background-color: #1e1e2e !important;
+  color: #e0e0e0 !important;
+}

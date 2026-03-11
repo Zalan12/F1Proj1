@@ -1,0 +1,104 @@
+<!-- Hero Banner -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Formula 1 <span class="accent">2025</span></h1>
+        <p>Season Dashboard</p>
+    </div>
+</section>
+
+<!-- Stat Summary Row -->
+<div class="stats-row">
+    <mat-card class="stat-card">
+        <mat-icon>groups</mat-icon>
+        <div class="stat-info">
+            <span class="stat-value">{{ teams.length }}</span>
+            <span class="stat-label">Teams</span>
+        </div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+        <mat-icon>flag</mat-icon>
+        <div class="stat-info">
+            <span class="stat-value">{{ circuits.length }}</span>
+            <span class="stat-label">Circuits</span>
+        </div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+        <mat-icon>emoji_events</mat-icon>
+
+        <div class="stat-info">
+            <span class="stat-value">{{ races.length }}</span>
+            <span class="stat-label">Races</span>
+        </div>
+    </mat-card>
+
+    <mat-card class="stat-card">
+        <mat-icon>person</mat-icon>
+        <div class="stat-info">
+            <span class="stat-value">{{ drivers.length }}</span>
+            <span class="stat-label">Drivers</span>
+        </div>
+    </mat-card>
+    <mat-card class="stat-card">
+        <mat-icon>checklist</mat-icon>
+        <div class="stat-info">
+            <span class="stat-value">{{ results.length }}</span>
+            <span class="stat-label">Results</span>
+        </div>
+    </mat-card>
+</div>
+
+<!-- Main Dashboard Grid -->
+<div class="dashboard-grid">
+
+    <mat-tab-group>
+        <mat-tab label="Drivers">
+            <table mat-table [dataSource]="driversDataSource" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <td mat-cell *matCellDef="let driver"> {{driver.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="firstName">
+                    <th mat-header-cell *matHeaderCellDef> First Name </th>
+                    <td mat-cell *matCellDef="let driver"> {{driver.firstName}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="lastName">
+                    <th mat-header-cell *matHeaderCellDef> Last Name </th>
+                    <td mat-cell *matCellDef="let driver"> {{driver.lastName}} </td>
+                </ng-container>
+
+                
+                <ng-container matColumnDef="nationality">
+                    <th mat-header-cell *matHeaderCellDef> Nationality </th>
+                    <td mat-cell *matCellDef="let driver"> {{driver.nationality}} </td>
+                </ng-container>
+
+                
+                <ng-container matColumnDef="number">
+                    <th mat-header-cell *matHeaderCellDef> Number </th>
+                    <td mat-cell *matCellDef="let driver"> {{driver.number}} </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        <mat-paginator [length]="drivers.length"
+              [pageSize]="5"
+              [pageSizeOptions]="[5, 10, 25, 100]"
+              aria-label="Select page">
+    </mat-paginator>
+
+
+        </mat-tab>
+        <mat-tab label="Teams"> Teams </mat-tab>
+        <mat-tab label="Races"> Races </mat-tab>
+        <mat-tab label="Circuits"> Circuits </mat-tab>
+        <mat-tab label="Results"> Results </mat-tab>
+
+    </mat-tab-group>
+
+</div>
