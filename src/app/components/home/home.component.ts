@@ -12,16 +12,21 @@ import {MatTabsModule} from '@angular/material/tabs';
 import { Result } from '../../interfaces/result';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import {MatInputModule} from '@angular/material/input';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatDividerModule} from '@angular/material/divider';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [MatCardModule, MatIconModule, MatButtonModule, CommonModule,MatTabsModule, MatTableModule,MatPaginatorModule],
+    imports: [MatCardModule, MatIconModule, MatButtonModule, CommonModule,MatTabsModule, MatTableModule,MatPaginatorModule,MatInputModule,MatFormFieldModule, MatDividerModule],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit, AfterViewInit{
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild('driversPaginator') driversPaginator!: MatPaginator;
+  @ViewChild('teamsPaginator') teamsPaginator!: MatPaginator;
+
     constructor(private api: ApiService) { }
 
     teams: Team[] = [];
@@ -39,14 +44,17 @@ export class HomeComponent implements OnInit, AfterViewInit{
 
     }
     driversDataSource = new MatTableDataSource<Driver>([]);
+    teamsDataSource = new MatTableDataSource<Team>([]);
     ngAfterViewInit(): void {
-        this.driversDataSource.paginator = this.paginator;
+        this.driversDataSource.paginator = this.driversPaginator;
+        this.teamsDataSource.paginator = this.teamsPaginator;
     }
 
     getTeams() {
         this.api.readAll('teams').subscribe(data => {
             console.log('Teams data:', data);
             this.teams = data as Team[];
+            this.teamsDataSource.data = this.teams;
         });
     }
     getCircuits() {
@@ -76,6 +84,7 @@ export class HomeComponent implements OnInit, AfterViewInit{
         });
     }
 
-    displayedColumns: string[] = ['id', 'firstName', 'lastName', 'nationality', 'number'];
+    driversDisplayedColumns: string[] = ['id', 'firstName', 'lastName', 'nationality', 'number'];
+    teamsDisplayedColumns: string[] = ['id', 'name', 'base', 'principal','powerUnit','Color'];
 
 }

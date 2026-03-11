@@ -52,8 +52,34 @@
 <!-- Main Dashboard Grid -->
 <div class="dashboard-grid">
 
+   
     <mat-tab-group>
         <mat-tab label="Drivers">
+             <div class="newDriver">
+            <mat-form-field>
+                <mat-label>First Name</mat-label>
+                <input matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Last Name</mat-label>
+                <input matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Nationality</mat-label>
+                <input matInput>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Number</mat-label>
+                <input matInput>
+            </mat-form-field>
+
+              <button mat-flat-button>Mentés</button>
+    </div>
+
+
             <table mat-table [dataSource]="driversDataSource" class="mat-elevation-z8">
 
                 <ng-container matColumnDef="id">
@@ -71,30 +97,68 @@
                     <td mat-cell *matCellDef="let driver"> {{driver.lastName}} </td>
                 </ng-container>
 
-                
+
                 <ng-container matColumnDef="nationality">
                     <th mat-header-cell *matHeaderCellDef> Nationality </th>
                     <td mat-cell *matCellDef="let driver"> {{driver.nationality}} </td>
                 </ng-container>
 
-                
+
                 <ng-container matColumnDef="number">
                     <th mat-header-cell *matHeaderCellDef> Number </th>
                     <td mat-cell *matCellDef="let driver"> {{driver.number}} </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                <tr mat-header-row *matHeaderRowDef="driversDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: driversDisplayedColumns;"></tr>
             </table>
-        <mat-paginator [length]="drivers.length"
-              [pageSize]="5"
-              [pageSizeOptions]="[5, 10, 25, 100]"
-              aria-label="Select page">
-    </mat-paginator>
+            <mat-paginator #driversPaginator [length]="drivers.length" [pageSize]="5"
+                [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+            </mat-paginator>
 
 
         </mat-tab>
-        <mat-tab label="Teams"> Teams </mat-tab>
+        <mat-tab label="Teams">
+            <table mat-table [dataSource]="teamsDataSource" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="id">
+                    <th mat-header-cell *matHeaderCellDef> No. </th>
+                    <td mat-cell *matCellDef="let team"> {{team.id}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef> Name </th>
+                    <td mat-cell *matCellDef="let team"> {{team.name}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="base">
+                    <th mat-header-cell *matHeaderCellDef> Base </th>
+                    <td mat-cell *matCellDef="let team"> {{team.base}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="principal">
+                    <th mat-header-cell *matHeaderCellDef> Principal </th>
+                    <td mat-cell *matCellDef="let team"> {{team.principal}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="powerUnit">
+                    <th mat-header-cell *matHeaderCellDef> Power Unit </th>
+                    <td mat-cell *matCellDef="let team"> {{team.powerUnit}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Color">
+                    <th mat-header-cell *matHeaderCellDef> Color </th>
+                    <td mat-cell *matCellDef="let team"> {{team.color}} </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="teamsDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: teamsDisplayedColumns;"></tr>
+            </table>
+            <mat-paginator #teamsPaginator [length]="teams.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                aria-label="Select page">
+            </mat-paginator>
+        </mat-tab>
         <mat-tab label="Races"> Races </mat-tab>
         <mat-tab label="Circuits"> Circuits </mat-tab>
         <mat-tab label="Results"> Results </mat-tab>

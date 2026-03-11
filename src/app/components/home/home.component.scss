@@ -74,6 +74,14 @@
   }
 }
 
+
+.newDriver {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    margin-top: 10px;
+}
+
 // ── Dashboard Grid ──
 .dashboard-grid {
   gap: 24px;

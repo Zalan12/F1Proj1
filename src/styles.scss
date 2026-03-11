@@ -78,3 +78,57 @@ body {
   background-color: #1e1e2e !important;
   color: #e0e0e0 !important;
 }
+
+/* ── Dark form fields ── */
+.mat-mdc-form-field {
+  /* Label colour */
+  .mat-mdc-floating-label, .mdc-floating-label {
+    color: #aaa !important;
+  }
+
+  /* Text input colour */
+  .mat-mdc-input-element, input.mat-mdc-input-element {
+    color: #e0e0e0 !important;
+    caret-color: #e10600 !important;
+  }
+
+  /* Outline border – idle */
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: #3a3a50 !important;
+  }
+
+  /* Outline border – hover */
+  &:hover .mdc-notched-outline__leading,
+  &:hover .mdc-notched-outline__notch,
+  &:hover .mdc-notched-outline__trailing {
+    border-color: #6666aa !important;
+  }
+
+  /* Outline border – focused */
+  &.mat-focused .mdc-notched-outline__leading,
+  &.mat-focused .mdc-notched-outline__notch,
+  &.mat-focused .mdc-notched-outline__trailing {
+    border-color: #e10600 !important;
+  }
+
+  /* Label colour – focused */
+  &.mat-focused .mat-mdc-floating-label,
+  &.mat-focused .mdc-floating-label {
+    color: #e10600 !important;
+  }
+
+  /* Fill-style background (used when appearance="fill") */
+  .mdc-text-field--filled {
+    background-color: #1e1e2e !important;
+  }
+
+  /* Underline for fill appearance */
+  .mdc-line-ripple::before {
+    border-bottom-color: #3a3a50 !important;
+  }
+  .mdc-line-ripple::after {
+    border-bottom-color: #e10600 !important;
+  }
+}
