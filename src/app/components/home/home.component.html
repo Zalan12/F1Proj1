@@ -77,7 +77,7 @@
                 </mat-form-field>
 
                 <p class="rookie-toggle">
-                    <mat-slide-toggle name="rookie" [(ngModel)]="newDriver.rookie">Rookie?</mat-slide-toggle>
+                    <mat-slide-toggle name="rookie" [(ngModel)]="newDriver.rookie"><span style="color: white;">Rookie?</span></mat-slide-toggle>
                 </p>
 
                 <mat-form-field>
@@ -87,11 +87,13 @@
                     </mat-select>
                 </mat-form-field>
 
-                <button mat-flat-button (click)="addDriver(newDriver)">Mentés</button>
+                <button mat-flat-button *ngIf="!isEditingDriver" (click)="addDriver(newDriver)">Mentés</button>
+                <button mat-flat-button color="accent" *ngIf="isEditingDriver" (click)="updateDriver(newDriver)">Update</button>
+                <button mat-button *ngIf="isEditingDriver" (click)="cancelEditDriver()">Cancel</button>
             </div>
 
 
-            <table mat-table [dataSource]="driversDataSource" class="mat-elevation-z8">
+            <table mat-table [dataSource]="driversDataSource"  class="mat-elevation-z8">
 
                 <ng-container matColumnDef="id">
                     <th mat-header-cell *matHeaderCellDef> No. </th>
@@ -158,7 +160,9 @@
                     <mat-label>Color</mat-label>
                     <input matInput name="color" type="text" [(ngModel)]="newTeam.color" />
                 </mat-form-field>
-                <button mat-flat-button (click)="addTeam(newTeam)">Mentés</button>
+                <button mat-flat-button *ngIf="!isEditingTeam" (click)="addTeam(newTeam)">Mentés</button>
+                <button mat-flat-button color="accent" *ngIf="isEditingTeam" (click)="updateTeam(newTeam)">Update</button>
+                <button mat-button *ngIf="isEditingTeam" (click)="cancelEditTeam()">Cancel</button>
             </div>
             <table mat-table [dataSource]="teamsDataSource" class="mat-elevation-z8">
 
@@ -208,6 +212,39 @@
         </mat-tab>
 
         <mat-tab label="Races">
+
+              <div class="newData">
+                 <mat-form-field>
+                    <mat-label>Round</mat-label>
+                    <input matInput name="round" type="text" [(ngModel)]="newRace.round" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>grandPrix</mat-label>
+                    <input matInput name="grandPrix" type="text" [(ngModel)]="newRace.grandPrix" />
+                </mat-form-field>
+               
+                <mat-form-field>
+                    <mat-label>Select circuit</mat-label>
+                    <mat-select [(ngModel)]="newRace.circuitId" name="circuitId">
+                        <mat-option *ngFor="let circuit of circuits" [value]="circuit.id">{{circuit.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Date</mat-label>
+                    <input matInput name="date" type="text" [(ngModel)]="newRace.date" />
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Select status</mat-label>
+                    <mat-select [(ngModel)]="newRace.status" name="status">
+                        <mat-option *ngFor="let status of raceStatuses" [value]="status">{{status}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <button mat-flat-button *ngIf="!isEditingRace" (click)="addRace(newRace)">Mentés</button>
+                <button mat-flat-button color="accent" *ngIf="isEditingRace" (click)="updateRace(newRace)">Update</button>
+                <button mat-button *ngIf="isEditingRace" (click)="cancelEditRace()">Cancel</button>
+            </div>
+
             <table mat-table [dataSource]="racesDataSource" class="mat-elevation-z8">
 
                 <ng-container matColumnDef="id">
@@ -285,7 +322,9 @@
                 </mat-form-field>
 
 
-                <button mat-flat-button (click)="addCircuit(newCircuit)">Mentés</button>
+                <button mat-flat-button *ngIf="!isEditingCircuit" (click)="addCircuit(newCircuit)">Mentés</button>
+                <button mat-flat-button color="accent" *ngIf="isEditingCircuit" (click)="updateCircuit(newCircuit)">Update</button>
+                <button mat-button *ngIf="isEditingCircuit" (click)="cancelEditCircuit()">Cancel</button>
             </div>
             <table mat-table [dataSource]="circuitsDataSource" class="mat-elevation-z8">
 
