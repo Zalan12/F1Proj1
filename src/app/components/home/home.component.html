@@ -58,25 +58,27 @@
             <div class="newDriver">
                 <mat-form-field>
                     <mat-label>First Name</mat-label>
-                    <input matInput>
+                    <input matInput name="firstName" type="text" >
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Last Name</mat-label>
-                    <input matInput>
+                    <input matInput >
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Nationality</mat-label>
-                    <input matInput>
+                    <input matInput >
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Number</mat-label>
-                    <input matInput>
+                    <input matInput >
                 </mat-form-field>
 
-                <button mat-flat-button>Mentés</button>
+                <p class="rookie-toggle"><mat-slide-toggle><span style="color: rgb(153, 153, 153);">Rookie?</span></mat-slide-toggle></p>
+
+                <button mat-flat-button (click)="addDriver(newDriver)">Mentés</button>
             </div>
 
 
@@ -107,6 +109,11 @@
                 <ng-container matColumnDef="number">
                     <th mat-header-cell *matHeaderCellDef> Number </th>
                     <td mat-cell *matCellDef="let driver"> {{driver.number}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let driver"> <button mat-button style="color: yellow;" (click)="editDriver(driver)">Edit</button> <button mat-button style="color: red;" (click)="deleteDriver(driver.id)">Delete</button> </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="driversDisplayedColumns"></tr>

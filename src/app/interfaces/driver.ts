@@ -1,9 +1,9 @@
 export interface Driver {
-    id: number;
-    firstName: string;
-    lastName: string;
-    nationality: string;
-    number: string;
-    rookie: boolean;
-    teamId: number;
+    id?: number;
+    firstName?: string;
+    lastName?: string;
+    nationality?: string;
+    number?: number;
+    rookie?: boolean;
+    teamId?: number;
 }

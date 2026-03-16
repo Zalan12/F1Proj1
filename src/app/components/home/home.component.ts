@@ -16,15 +16,30 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDividerModule} from '@angular/material/divider';
 import { DatePipe } from '@angular/common';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 @Component({
     selector: 'app-home',
     standalone: true,
-    imports: [MatCardModule, MatIconModule, MatButtonModule, CommonModule,MatTabsModule, MatTableModule,MatPaginatorModule,MatInputModule,MatFormFieldModule, MatDividerModule],
+    imports: [
+        MatCardModule, 
+        MatIconModule, 
+        MatButtonModule, 
+        CommonModule,
+        MatTabsModule, 
+        MatTableModule,
+        MatPaginatorModule,
+        MatInputModule,
+        MatFormFieldModule, 
+        MatDividerModule,
+        MatSlideToggleModule
+        ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit, AfterViewInit{
+
+    // Paginator ViewChilds
   @ViewChild('driversPaginator') driversPaginator!: MatPaginator;
   @ViewChild('teamsPaginator') teamsPaginator!: MatPaginator;
   @ViewChild('circuitsPaginator') circuitsPaginator!: MatPaginator;
@@ -33,6 +48,7 @@ export class HomeComponent implements OnInit, AfterViewInit{
 
     constructor(private api: ApiService) { }
 
+    // Data Arrays
     teams: Team[] = [];
     circuits: Circuit[] = [];
     races: Race[] = [];
@@ -40,6 +56,8 @@ export class HomeComponent implements OnInit, AfterViewInit{
     results: Result[] = [];
 
     ngOnInit() {
+
+        // Fetch initial data
         this.getTeams();
         this.getCircuits();
         this.getRaces();
@@ -47,6 +65,8 @@ export class HomeComponent implements OnInit, AfterViewInit{
         this.getResults();
 
     }
+
+    // Data Sources
     driversDataSource = new MatTableDataSource<Driver>([]);
     teamsDataSource = new MatTableDataSource<Team>([]);
     circuitsDataSource = new MatTableDataSource<Circuit>([]);
@@ -54,13 +74,15 @@ export class HomeComponent implements OnInit, AfterViewInit{
     resultsDataSource = new MatTableDataSource<Result>([]);
 
     ngAfterViewInit(): void {
+
+        // Set up paginators
         this.driversDataSource.paginator = this.driversPaginator;
         this.teamsDataSource.paginator = this.teamsPaginator;
         this.circuitsDataSource.paginator = this.circuitsPaginator;
         this.racesDataSource.paginator = this.racesPaginator;
         this.resultsDataSource.paginator = this.resultsPaginator;
     }
-
+    //Load data into tables
     getTeams() {
         this.api.readAll('teams').subscribe(data => {
         
@@ -98,7 +120,55 @@ export class HomeComponent implements OnInit, AfterViewInit{
         });
     }
 
-    driversDisplayedColumns: string[] = ['id', 'firstName', 'lastName', 'nationality', 'number'];
+
+    //------------------------DRIVER CRUD------------------------
+
+    newDriver:Driver = {
+        id: 0,
+        firstName: '' ,
+        lastName: '',
+        nationality: '',
+        number: 0,
+        rookie: false,
+        teamId: 13
+    };
+    deleteDriver(driverId: number) {
+        console.log('Deleting driver with ID:', driverId);
+        this.api.delete('drivers', driverId).subscribe(() => {
+            this.getDrivers();
+        });
+    }
+
+    // Add Driver
+    addDriver(driver: Driver) {
+        this.api.insert('drivers', driver).subscribe(() => {
+            this.getDrivers();
+        });
+    }
+
+    editDriver(driver: Driver) {
+        // Implement edit functionality
+    }
+
+    //------------------------TEAM CRUD------------------------
+
+    deleteTeam(teamId: number) {
+        console.log('Deleting team with ID:', teamId);
+        this.api.delete('teams', teamId).subscribe(() => {
+            this.getTeams();
+        });
+    }
+
+    // Add Team
+    addTeam(team: Team) {
+        this.api.insert('teams', team).subscribe(() => {
+            this.getTeams();
+        });
+    }
+
+    //------------------------DRIVER------------------------
+
+    driversDisplayedColumns: string[] = ['id', 'firstName', 'lastName', 'nationality', 'number','Actions'];
     teamsDisplayedColumns: string[] = ['id', 'name', 'base', 'principal','powerUnit','Color'];
     circuitsDisplayedColumns: string[] = ['id', 'name', 'country', 'city', 'lengthKm', 'lapRecord'];
     racesDisplayedColumns: string[] = ['id', 'grandPrix', 'date', 'status','circuit'];

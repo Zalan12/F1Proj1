@@ -73,12 +73,16 @@ export class ApiService {
   }
 
   insert(table: string, data: object){
-    return this.http.post(`${this.server}/${table}`, data, this.tokenHeader());
+    return this.http.post(`${this.server}/api/${table}`, data, this.tokenHeader());
   }
 
-  update(){}
+  update(table: string, id: number, data: object){
+    return this.http.put(`${this.server}/api/${table}/${id}`, data, this.tokenHeader());
+  }
 
-  delete(){}
+  delete(table: string, id: number){
+    return this.http.delete(`${this.server}/api/${table}/${id}`, this.tokenHeader());
+  }
 
   deleteAll(){}
 
