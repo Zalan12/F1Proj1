@@ -55,28 +55,37 @@
 
     <mat-tab-group>
         <mat-tab label="Drivers">
-            <div class="newDriver">
+            <div class="newData">
                 <mat-form-field>
                     <mat-label>First Name</mat-label>
-                    <input matInput name="firstName" type="text" >
+                    <input matInput name="firstName" type="text" [(ngModel)]="newDriver.firstName" />
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Last Name</mat-label>
-                    <input matInput >
+                    <input matInput name="lastName" type="text" [(ngModel)]="newDriver.lastName" />
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Nationality</mat-label>
-                    <input matInput >
+                    <input matInput name="nationality" type="text" [(ngModel)]="newDriver.nationality" />
                 </mat-form-field>
 
                 <mat-form-field>
                     <mat-label>Number</mat-label>
-                    <input matInput >
+                    <input matInput name="number" type="number" [(ngModel)]="newDriver.number" />
                 </mat-form-field>
 
-                <p class="rookie-toggle"><mat-slide-toggle><span style="color: rgb(153, 153, 153);">Rookie?</span></mat-slide-toggle></p>
+                <p class="rookie-toggle">
+                    <mat-slide-toggle name="rookie" [(ngModel)]="newDriver.rookie">Rookie?</mat-slide-toggle>
+                </p>
+
+                <mat-form-field>
+                    <mat-label>Select team</mat-label>
+                    <mat-select [(ngModel)]="newDriver.teamId" name="teamId">
+                        <mat-option *ngFor="let team of teams" [value]="team.id">{{team.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
 
                 <button mat-flat-button (click)="addDriver(newDriver)">Mentés</button>
             </div>
@@ -113,7 +122,9 @@
 
                 <ng-container matColumnDef="Actions">
                     <th mat-header-cell *matHeaderCellDef> Actions </th>
-                    <td mat-cell *matCellDef="let driver"> <button mat-button style="color: yellow;" (click)="editDriver(driver)">Edit</button> <button mat-button style="color: red;" (click)="deleteDriver(driver.id)">Delete</button> </td>
+                    <td mat-cell *matCellDef="let driver"> <button mat-button style="color: yellow;"
+                            (click)="editDriver(driver)">Edit</button> <button mat-button style="color: red;"
+                            (click)="deleteDriver(driver.id)">Delete</button> </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="driversDisplayedColumns"></tr>
@@ -126,6 +137,29 @@
 
         </mat-tab>
         <mat-tab label="Teams">
+            <div class="newData">
+                 <mat-form-field>
+                    <mat-label>Team Name</mat-label>
+                    <input matInput name="teamName" type="text" [(ngModel)]="newTeam.name" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Base</mat-label>
+                    <input matInput name="base" type="text" [(ngModel)]="newTeam.base" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Principal</mat-label>
+                    <input matInput name="principal" type="text" [(ngModel)]="newTeam.principal" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Power Unit</mat-label>
+                    <input matInput name="powerUnit" type="text" [(ngModel)]="newTeam.powerUnit" />
+                </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Color</mat-label>
+                    <input matInput name="color" type="text" [(ngModel)]="newTeam.color" />
+                </mat-form-field>
+                <button mat-flat-button (click)="addTeam(newTeam)">Mentés</button>
+            </div>
             <table mat-table [dataSource]="teamsDataSource" class="mat-elevation-z8">
 
                 <ng-container matColumnDef="id">
@@ -158,6 +192,12 @@
                     <td mat-cell *matCellDef="let team"> {{team.color}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let team"> <button mat-button style="color: yellow;"
+                            (click)="editTeam(team)">Edit</button> <button mat-button style="color: red;"
+                            (click)="deleteTeam(team.id)">Delete</button> </td>
+                </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="teamsDisplayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: teamsDisplayedColumns;"></tr>
@@ -200,16 +240,53 @@
                     <td mat-cell *matCellDef="let race"> {{race.circuit.name}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let race"> <button mat-button style="color: yellow;"
+                            (click)="editRace(race)">Edit</button> <button mat-button style="color: red;"
+                            (click)="deleteRace(race.id)">Delete</button> </td>
+                </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="racesDisplayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: racesDisplayedColumns;"></tr>
             </table>
             <mat-paginator #racesPaginator [length]="races.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
                 aria-label="Select page">
-            </mat-paginator>    
-        
+            </mat-paginator>
+
         </mat-tab>
         <mat-tab label="Circuits">
+
+            <div class="newData">
+                <mat-form-field>
+                    <mat-label>Name</mat-label>
+                    <input matInput name="name" type="text" [(ngModel)]="newCircuit.name" />
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Country</mat-label>
+                    <input matInput name="country" type="text" [(ngModel)]="newCircuit.country" />
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>City</mat-label>
+                    <input matInput name="city" type="text" [(ngModel)]="newCircuit.city" />
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Length (km)</mat-label>
+                    <input matInput name="lengthKm" type="number" [(ngModel)]="newCircuit.lengthKm" />
+                </mat-form-field>
+
+                
+                <mat-form-field>
+                    <mat-label>Lap Record</mat-label>
+                    <input matInput name="lapRecord" type="number" [(ngModel)]="newCircuit.lapRecord" />
+                </mat-form-field>
+
+
+                <button mat-flat-button (click)="addCircuit(newCircuit)">Mentés</button>
+            </div>
             <table mat-table [dataSource]="circuitsDataSource" class="mat-elevation-z8">
 
                 <ng-container matColumnDef="id">
@@ -242,15 +319,21 @@
                     <td mat-cell *matCellDef="let circuit"> {{circuit.lapRecord}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="Actions">
+                    <th mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td mat-cell *matCellDef="let circuit"> <button mat-button style="color: yellow;"
+                            (click)="editCircuit(circuit)">Edit</button> <button mat-button style="color: red;"
+                            (click)="deleteCircuit(circuit.id)">Delete</button> </td>
+                </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="circuitsDisplayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: circuitsDisplayedColumns;"></tr>
             </table>
-            <mat-paginator #circuitsPaginator [length]="circuits.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
-                aria-label="Select page">
+            <mat-paginator #circuitsPaginator [length]="circuits.length" [pageSize]="5"
+                [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
             </mat-paginator>
         </mat-tab>
-        <mat-tab label="Results"> 
+        <mat-tab label="Results">
 
             <table mat-table [dataSource]="resultsDataSource" class="mat-elevation-z8">
 
@@ -266,7 +349,8 @@
 
                 <ng-container matColumnDef="driver">
                     <th mat-header-cell *matHeaderCellDef> Driver </th>
-                    <td mat-cell *matCellDef="let result"> {{result.driver.firstName}} {{result.driver.lastName}}/{{result.team.name}} </td>
+                    <td mat-cell *matCellDef="let result"> {{result.driver.firstName}}
+                        {{result.driver.lastName}}/{{result.team.name}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="points">
@@ -283,9 +367,9 @@
                 <tr mat-header-row *matHeaderRowDef="resultsDisplayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: resultsDisplayedColumns;"></tr>
             </table>
-            <mat-paginator #resultsPaginator [length]="results.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
-                aria-label="Select page">
-            </mat-paginator>  
+            <mat-paginator #resultsPaginator [length]="results.length" [pageSize]="5"
+                [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page">
+            </mat-paginator>
         </mat-tab>
 
     </mat-tab-group>

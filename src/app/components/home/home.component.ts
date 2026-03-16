@@ -17,6 +17,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDividerModule} from '@angular/material/divider';
 import { DatePipe } from '@angular/common';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
     selector: 'app-home',
@@ -26,13 +28,15 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MatIconModule, 
         MatButtonModule, 
         CommonModule,
+    FormsModule,
         MatTabsModule, 
         MatTableModule,
         MatPaginatorModule,
         MatInputModule,
         MatFormFieldModule, 
         MatDividerModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatSelectModule
         ],
     templateUrl: './home.component.html',
     styleUrl: './home.component.scss'
@@ -130,7 +134,7 @@ export class HomeComponent implements OnInit, AfterViewInit{
         nationality: '',
         number: 0,
         rookie: false,
-        teamId: 13
+        teamId: 0
     };
     deleteDriver(driverId: number) {
         console.log('Deleting driver with ID:', driverId);
@@ -141,8 +145,34 @@ export class HomeComponent implements OnInit, AfterViewInit{
 
     // Add Driver
     addDriver(driver: Driver) {
-        this.api.insert('drivers', driver).subscribe(() => {
+        
+        if (!driver.firstName?.trim() || !driver.lastName?.trim()) {
+            console.warn('First name and last name are required');
+            return;
+        }
+
+        
+        const payload: Driver = {
+            firstName: driver.firstName?.trim(),
+            lastName: driver.lastName?.trim(),
+            nationality: driver.nationality?.trim(),
+            number: Number(driver.number ?? 0),
+            rookie: !!driver.rookie,
+            teamId: driver.teamId ?? 0
+        };
+
+        this.api.insert('drivers', payload).subscribe(() => {
             this.getDrivers();
+            // reset form model
+            this.newDriver = {
+                id: 0,
+                firstName: '',
+                lastName: '',
+                nationality: '',
+                number: 0,
+                rookie: false,
+                teamId: 13
+            };
         });
     }
 
@@ -152,6 +182,15 @@ export class HomeComponent implements OnInit, AfterViewInit{
 
     //------------------------TEAM CRUD------------------------
 
+    newTeam: Team = {
+        id: 0,
+        name: '',
+        base: '',
+        principal: '',
+        powerUnit: '',
+        color: ''
+    };
+    
     deleteTeam(teamId: number) {
         console.log('Deleting team with ID:', teamId);
         this.api.delete('teams', teamId).subscribe(() => {
@@ -166,11 +205,64 @@ export class HomeComponent implements OnInit, AfterViewInit{
         });
     }
 
+    editTeam(team: Team) {
+        // Implement edit functionality
+    }
+
+    //------------------------RACE CRUD------------------------
+
+    deleteRace(raceId: number) {
+        console.log('Deleting race with ID:', raceId);
+        this.api.delete('races', raceId).subscribe(() => {
+            this.getRaces();
+        });
+    }
+
+    // Add Race
+    addRace(race: Race) {
+        this.api.insert('races', race).subscribe(() => {
+            this.getRaces();
+        });
+    }
+
+    editRace(race: Race) {
+        // Implement edit functionality
+    }
+
+    //----------------------CIRCUIT CRUD------------------------
+
+    newCircuit: Circuit = {
+        id: 0,
+        name: '',
+        country: '',
+        city: '',
+        lengthKm: 0,
+        lapRecord: ''
+    };
+
+    deleteCircuit(circuitId: number) {
+        console.log('Deleting circuit with ID:', circuitId);
+        this.api.delete('circuits', circuitId).subscribe(() => {
+            this.getCircuits();
+        });
+    }
+
+    // Add Circuit
+    addCircuit(circuit: Circuit) {
+        this.api.insert('circuits', circuit).subscribe(() => {
+            this.getCircuits();
+        });
+    }
+
+    editCircuit(circuit: Circuit) {
+        // Implement edit functionality
+    }
+
     //------------------------DRIVER------------------------
 
     driversDisplayedColumns: string[] = ['id', 'firstName', 'lastName', 'nationality', 'number','Actions'];
-    teamsDisplayedColumns: string[] = ['id', 'name', 'base', 'principal','powerUnit','Color'];
+    teamsDisplayedColumns: string[] = ['id', 'name', 'base', 'principal','powerUnit','Color', 'Actions'];
     circuitsDisplayedColumns: string[] = ['id', 'name', 'country', 'city', 'lengthKm', 'lapRecord'];
-    racesDisplayedColumns: string[] = ['id', 'grandPrix', 'date', 'status','circuit'];
+    racesDisplayedColumns: string[] = ['id', 'grandPrix', 'date', 'status','circuit','Actions'];
     resultsDisplayedColumns: string[] = ['id', 'race', 'driver', 'points', 'position'];
 }
